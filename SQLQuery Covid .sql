@@ -85,3 +85,89 @@ FROM[SaharLand].[dbo].[CovidDeaths] as DEA
  )
  select * ,(RollingCount/population)*100
  from popvsvac
+
+ --rolling count per location
+ select dea.continent  ,dea.location , dea.date , dea.population , vac.new_vaccinations,
+sum(cast(vac.new_vaccinations as int)) over (partition by dea.location order by dea.location,dea.date) as RollingCount 
+FROM[SaharLand].[dbo].[CovidDeaths] as DEA
+ join [SaharLand].[dbo].[CovidVaccinations] as VAC
+ on  DEA.location = vac.location
+ and DEA.date = vac.date
+ where DEA.continent is not null and dea.location = 'israel' 
+
+
+
+select *
+from [SaharLand].[dbo].[CovidVaccinations] 
+
+
+CREATE VIEW Global_Numbers  AS
+SELECT
+    date,
+    SUM(new_cases) AS total_new_cases,
+    SUM(CAST(new_deaths AS INT)) AS total_new_deaths,
+    CASE
+        WHEN SUM(new_cases) = 0 THEN 0  -- Avoid division by zero
+        ELSE SUM(CAST(new_deaths AS INT))/ SUM(new_cases) * 100.0 
+    END AS DeathsPercentage
+FROM[SaharLand].[dbo].[CovidDeaths]
+WHERE continent IS NULL
+GROUP BY date;
+
+
+CREATE PROCEDURE GetLocationVacData
+    @Location NVARCHAR(255)
+AS
+BEGIN
+    SELECT
+        DEA.continent,
+        DEA.location,
+        DEA.date,
+        DEA.population,
+        VAC.new_vaccinations,
+        SUM(CAST(VAC.new_vaccinations AS INT)) OVER (PARTITION BY DEA.location ORDER BY DEA.location, DEA.date) AS RollingCount
+    FROM [SaharLand].[dbo].[CovidDeaths] AS DEA
+    JOIN [SaharLand].[dbo].[CovidVaccinations] AS VAC
+    ON DEA.location = VAC.location AND DEA.date = VAC.date
+    WHERE DEA.continent IS NOT NULL AND DEA.location = @Location;
+END;
+
+EXEC GetLocationVacData @Location = 'israel';
+
+
+ --rolling count per location CovidTest
+ with CovidTest(continent  ,location , date , population , new_tests,RollingCountTest )
+ as (
+ select dea.continent  ,dea.location , dea.date , dea.population , vac.new_tests,
+sum(cast(vac.new_tests as int)) over (partition by dea.location order by dea.location,dea.date) as RollingCountTest 
+FROM[SaharLand].[dbo].[CovidDeaths] as DEA
+ join [SaharLand].[dbo].[CovidVaccinations] as VAC
+ on  DEA.location = vac.location
+ and DEA.date = vac.date
+ where DEA.continent is not null and dea.location = 'israel' 
+)
+
+select * , (RollingCountTest/population)*100 as RollingCountTestCTE
+FROM CovidTest
+
+ --Rolling count per location CovidTest AS storge prucedure
+ CREATE PROCEDURE GetLocationTestData
+    @Location NVARCHAR(255)
+AS
+BEGIN
+	 with CovidTest(continent  ,location , date , population , new_tests,RollingCountTest )
+ as (
+ select dea.continent  ,dea.location , dea.date , dea.population , vac.new_tests,
+sum(cast(vac.new_tests as int)) over (partition by dea.location order by dea.location,dea.date) as RollingCountTest 
+FROM[SaharLand].[dbo].[CovidDeaths] as DEA
+ join [SaharLand].[dbo].[CovidVaccinations] as VAC
+ on  DEA.location = vac.location
+ and DEA.date = vac.date
+ where DEA.continent is not null and dea.location = @Location 
+)
+
+select * , (RollingCountTest/population)*100 as RollingCountTestCTE
+FROM CovidTest
+END;
+
+EXEC GetLocationTestData @Location = 'Benin';
