@@ -170,4 +170,9 @@ select * , (RollingCountTest/population)*100 as RollingCountTestCTE
 FROM CovidTest
 END;
 
-EXEC GetLocationTestData @Location = 'Benin';
+EXEC GetLocationTestData @Location = 'Russia';
+
+--Index
+CREATE NONCLUSTERED INDEX idxGetLocationTestData
+ON [dbo].[CovidDeaths] ([location],[continent])
+INCLUDE ([date],[population])
