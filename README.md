@@ -19,8 +19,8 @@ This project involves the analysis of COVID-19 data, including data cleaning, SQ
   - [Address Fixing](#address-fixing)
   - [Changing 'Y' and 'N' to 'Yes' and 'No'](changing-y-and-n-to-yes-and-no)
   - [Duplicate Values](#duplicate-values)
+- [Tableau Dashboard](#tableau-dashboard)
 - [Contributing](#contributing)
-
 
 ## Introduction
 
@@ -79,7 +79,12 @@ Explore how 'Y' and 'N' values are changed to 'Yes' and 'No' in the NashvilHousi
 
 See how duplicate values are identified and handled in the NashvilHousing dataset.
 
+## Tableau Dashboard
+
+Explore the Tableau dashboard for visualizations related to this project: [Tableau Dashboard](https://public.tableau.com/app/profile/sahar.mashraki/viz/PortfolioProject_17057639519990/Dashboard1?publish=yes).
+
 ## Contributing
 
 Feel free to contribute by reporting issues, making suggestions, or submitting pull requests.
+
 
