@@ -20,7 +20,7 @@ This project involves the analysis of COVID-19 data, including data cleaning, SQ
   - [Changing 'Y' and 'N' to 'Yes' and 'No'](changing-y-and-n-to-yes-and-no)
   - [Duplicate Values](#duplicate-values)
 - [Contributing](#contributing)
-- [License](#license)
+
 
 ## Introduction
 
@@ -83,6 +83,3 @@ See how duplicate values are identified and handled in the NashvilHousing datase
 
 Feel free to contribute by reporting issues, making suggestions, or submitting pull requests.
 
-## License
-
-This project is licensed under [Your License Name] - see the [LICENSE.md](LICENSE.md) file for details.
