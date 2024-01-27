@@ -83,7 +83,7 @@ See how duplicate values are identified and handled in the NashvilHousing datase
 
 Explore the Tableau dashboard for visualizations related to this project: [Tableau Dashboard](https://public.tableau.com/app/profile/sahar.mashraki/viz/PortfolioProject_17057639519990/Dashboard1?publish=yes).
 
-### Excel Data Generation Explanation
+## Excel Data Generation Explanation
 
 The data in this dataset was generated using Excel, incorporating a random function and VLOOKUP for data mapping. Below is a brief overview:
 
